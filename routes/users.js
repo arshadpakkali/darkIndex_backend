@@ -13,11 +13,14 @@ router.get("/", passport.authenticate("jwt", { session: false }), function (
 });
 
 router.post("/login", async (req, res, next) => {
-  passport.authenticate("login", async (err, user) => {
+  passport.authenticate("login", async (err, user, options) => {
+    console.log(err, user, options);
     try {
-      if (err || !user) {
-        const error = new Error("An error occurred.");
-        return next(error);
+      if (err) {
+        return next(options);
+      }
+      if (!user) {
+        return res.status(401).send(options);
       }
       req.login(user, { session: false }, async (error) => {
         if (error) return next(error);
