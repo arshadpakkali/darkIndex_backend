@@ -5,15 +5,13 @@ const OrderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  product_id: {
-    type: mongoose.Types.ObjectId,
-    required: true,
-    ref: "Product",
-  },
   user_id: {
     type: mongoose.Types.ObjectId,
     required: true,
     ref: "User",
+  },
+  product: {
+    type: Number,
   },
   status: {
     type: String,
@@ -22,4 +20,4 @@ const OrderSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Orders", OrderSchema);
+module.exports = mongoose.model("Order", OrderSchema);

@@ -7,6 +7,7 @@ const UserSchema = new Schema({
   email: { type: String, unique: true, required: true, lowercase: true },
   phoneNumber: { type: Number, unique: true },
   password: { type: String, required: true },
+  subscription: { type: Number },
   creationDate: Date,
 });
 
@@ -14,6 +15,7 @@ UserSchema.pre("save", async function (next) {
   console.log(this);
   const hash = await bcrypt.hash(this.password, 10);
   this.password = hash;
+  this.creationDate = new Date();
   next();
 });
 UserSchema.methods.isValidPassword = async function (password) {

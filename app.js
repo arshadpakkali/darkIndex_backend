@@ -9,6 +9,7 @@ var usersRouter = require("./routes/users");
 var paymentsRouter = require("./routes/payment");
 let mongoose = require("mongoose");
 let cors = require("cors");
+const passport = require("passport");
 mongoose.connect("mongodb://localhost/darkIndex", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -32,7 +33,11 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use("/payments", paymentsRouter);
+app.use(
+  "/payments",
+  passport.authenticate("jwt", { session: false }),
+  paymentsRouter
+);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
